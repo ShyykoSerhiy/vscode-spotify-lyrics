@@ -9,8 +9,11 @@ app.get('/lyrics', async function (req, res) {
     try {
         const title = req.query.title.toLowerCase();
         const artist = req.query.artist.toLowerCase();
+        const artistTitle = `${artist} - ${title}`;
 
-        const response = await genius.search('Foo Fighters - Rope');
+        console.log(`Trying to find lyrics for ${artistTitle}`)
+
+        const response = await genius.search(artistTitle);
         const song = response.hits.find((hit) => {
             if (hit.type === 'song') {
                 return hit.result.title.toLowerCase() === title && hit.result.primary_artist.name.toLowerCase() === artist;
@@ -18,6 +21,7 @@ app.get('/lyrics', async function (req, res) {
             return false;
         })
         if (!song) {
+            console.log(`Failed to find lyrics for ${artistTitle}`)
             return res.status(404).send('Not found');
         }
         const fetchRes = await fetch(`https://genius.com${song.result.path}`);
@@ -27,12 +31,12 @@ app.get('/lyrics', async function (req, res) {
         const text = await fetchRes.text();
         const $ = cheerio.load(text);
         res.status(200).send($('.lyrics').text());
-    } catch (e) {
+    } catch (e) {        
         return res.status(500).send(e);
     }
 })
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!')
+app.listen(process.env.PORT || 3000, function () {
+    console.log('Lyrics server is running')
 })
 
