@@ -5,7 +5,10 @@
   "main": "app.js",
   "repository": "https://github.com/ShyykoSerhiy/vscode-spotify-lyrics.git",
   "author": "shyyko.serhiy@gmail.com",
-  "license": "MIT",
+  "license": "MIT",  
+  "scripts": {
+    "postinstall": "tsc"
+  },
   "dependencies": {
     "cheerio": "^0.22.0",
     "express": "^4.15.3",
