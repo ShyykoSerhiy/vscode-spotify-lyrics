@@ -22,7 +22,7 @@ app.get('/lyrics', async function (req, res) {
         }
         const fetchRes = await fetch(`https://genius.com${song.result.path}`);
         if (fetchRes.status !== 200) {
-            return res.status(500).send(await fetchRes.text());
+            return res.status(fetchRes.status).send(await fetchRes.text());
         }
         const text = await fetchRes.text();
         const $ = cheerio.load(text);
