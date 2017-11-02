@@ -9,7 +9,12 @@ app.get('/lyrics', async function (req, res) {
     try {
         const title = req.query.title.toLowerCase();
         const artist = req.query.artist.toLowerCase();
-        const artistTitle = `${artist} - ${title}`;
+
+        // When the song is a live version we need to remove the extra data
+        // to find the lyrics for the song.
+        // eg: The Trooper - Live Long Beach Arena
+        const filteredTitle = title.split(' - ')[0];
+        const artistTitle = `${artist} - ${filteredTitle}`;
 
         console.log(`Trying to find lyrics for ${artistTitle}`)
 
