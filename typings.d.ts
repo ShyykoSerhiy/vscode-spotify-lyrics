@@ -20,6 +20,7 @@ declare module 'genius-api' {
                 [key: string]: any
             };
             "title": string;
+            "title_with_featured": string;
             "url": string;
             "primary_artist": {
                 "api_path": string;
