@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as api from 'genius-api';
 import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
+import * as stringSimilarity from 'string-similarity';
 const app = express();
 const genius = new api(process.env.GENIUS_CLIENT_ACCESS_TOKEN);
 
@@ -16,7 +17,8 @@ app.get('/lyrics', async function (req, res) {
         const response = await genius.search(artistTitle);
         const song = response.hits.find((hit) => {
             if (hit.type === 'song') {
-                return hit.result.title.toLowerCase() === title && hit.result.primary_artist.name.toLowerCase() === artist;
+                const titleSimilarityNumber = stringSimilarity.compareTwoStrings(title, hit.result.title_with_featured.toLowerCase());
+                return titleSimilarityNumber > 0.9 && hit.result.primary_artist.name.toLowerCase() === artist;
             }
             return false;
         })

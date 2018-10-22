@@ -5,18 +5,19 @@
   "main": "app.js",
   "repository": "https://github.com/ShyykoSerhiy/vscode-spotify-lyrics.git",
   "author": "shyyko.serhiy@gmail.com",
-  "license": "MIT",  
+  "license": "MIT",
   "scripts": {
     "postinstall": "tsc"
   },
   "dependencies": {
+    "@types/cheerio": "^0.22.1",
+    "@types/express": "^4.0.35",
+    "@types/node-fetch": "^1.6.7",
     "cheerio": "^0.22.0",
     "express": "^4.15.3",
     "genius-api": "https://github.com/jahrlin/genius-api.git",
     "node-fetch": "^1.6.3",
-    "typescript": "next",
-    "@types/cheerio": "^0.22.1",
-    "@types/express": "^4.0.35",
-    "@types/node-fetch": "^1.6.7"
+    "string-similarity": "^2.0.0",
+    "typescript": "next"
   }
 }
