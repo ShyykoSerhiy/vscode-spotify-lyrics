@@ -390,11 +390,11 @@ fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
 
-"genius-api@https://github.com/jahrlin/genius-api.git":
+"genius-api@https://github.com/ShyykoSerhiy/genius-api.git":
   version "0.4.1"
-  resolved "https://github.com/jahrlin/genius-api.git#82ba446951a9f30cf2823e57b1e2091aa76a7ea0"
+  resolved "https://github.com/ShyykoSerhiy/genius-api.git#1a6d343044b16f4ce4b844746d17fc2866e8ae16"
   dependencies:
-    lodash "^3.9.3"
+    lodash "^4.17.11"
     request "^2.58.0"
 
 getpass@^0.1.1:
@@ -547,9 +547,9 @@ lodash.some@^4.4.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.some/-/lodash.some-4.6.0.tgz#1bb9f314ef6b8baded13b549169b2a945eb68e4d"
 
-lodash@^3.9.3:
-  version "3.10.1"
-  resolved "http://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
+lodash@^4.17.11:
+  version "4.17.11"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
 media-typer@0.3.0:
   version "0.3.0"
