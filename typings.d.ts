@@ -43,13 +43,3 @@ declare module 'genius-api' {
     }
     export = Genius;
 }
-
-declare module 'string-similarity' {
-    
-    namespace StringSimilarity {
-        function compareTwoStrings(string1:string, string2:string): number;
-        function findBestMatch(mainString:string, targetStrings:Array<string>): Object;
-    }
-
-    export = StringSimilarity;
-}
