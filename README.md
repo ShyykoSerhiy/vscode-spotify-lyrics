@@ -1,4 +1,4 @@
-# [vscode-spotify-lyrics (0.0.2)](https://github.com/shyykoserhiy/vscode-spotify-lyrics) [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
+# [vscode-spotify-lyrics (0.0.3)](https://github.com/shyykoserhiy/vscode-spotify-lyrics) [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
 Simple lyrics server for vscode-spotify that uses Genius API for lyrics retrieval.
 
