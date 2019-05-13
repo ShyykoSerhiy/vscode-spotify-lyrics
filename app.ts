@@ -18,7 +18,8 @@ app.get('/lyrics', async function (req, res) {
         const song = response.hits.find((hit) => {
             if (hit.type === 'song') {
                 const titleSimilarityNumber = stringSimilarity.compareTwoStrings(title, hit.result.title_with_featured.toLowerCase());
-                return titleSimilarityNumber > 0.9 && hit.result.primary_artist.name.toLowerCase() === artist;
+                const artistSimilarityNumber = stringSimilarity.compareTwoStrings(artist, hit.result.primary_artist.name.toLowerCase());
+                return titleSimilarityNumber > 0.9 && artistSimilarityNumber > 0.9;
             }
             return false;
         })
