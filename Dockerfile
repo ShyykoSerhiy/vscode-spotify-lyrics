@@ -1,8 +1,14 @@
 
 FROM node:latest
-LABEL Name=vscode-spotify-lyrics Version=0.0.1 
-COPY . /usr/src/app
-RUN cd /usr/src/app && yarn install
+
 WORKDIR /usr/src/app
+
+COPY package.json yarn.lock ./
+RUN yarn install
+
+COPY . .
+RUN npx tsc
+
 EXPOSE 3000
+
 CMD node app.js
