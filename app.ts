@@ -6,10 +6,10 @@ import * as stringSimilarity from 'string-similarity';
 const app = express();
 const genius = new api(process.env.GENIUS_CLIENT_ACCESS_TOKEN);
 
-app.get('/lyrics', async function (req, res) {    
+app.get('/lyrics', async function (req, res) {
     try {
-        const title = req.query.title.toLowerCase();
-        const artist = req.query.artist.toLowerCase();
+        const title = (req.query.title || '').toLowerCase();
+        const artist = (req.query.artist || '').toLowerCase();
         const artistTitle = `${artist} - ${title}`;
 
         console.log(`Trying to find lyrics for ${artistTitle}`)
@@ -17,9 +17,12 @@ app.get('/lyrics', async function (req, res) {
         const response = await genius.search(artistTitle);
         const song = response.hits.find((hit) => {
             if (hit.type === 'song') {
-                const titleSimilarityNumber = stringSimilarity.compareTwoStrings(title, hit.result.title_with_featured.toLowerCase());
                 const artistSimilarityNumber = stringSimilarity.compareTwoStrings(artist, hit.result.primary_artist.name.toLowerCase());
-                return titleSimilarityNumber > 0.9 && artistSimilarityNumber > 0.9;
+                const titleSimilarityNumber = stringSimilarity.compareTwoStrings(title, hit.result.title.toLowerCase());
+                const titleFeatSimilarityNumber = stringSimilarity.compareTwoStrings(title, hit.result.title_with_featured.toLowerCase());
+
+                console.log(`${hit.result.primary_artist.name} - ${hit.result.title} [${hit.result.title_with_featured}]`, `Similarity: ${artistSimilarityNumber} - ${titleSimilarityNumber} [${titleFeatSimilarityNumber}]`);
+                return (titleSimilarityNumber > 0.9 || titleFeatSimilarityNumber > 0.9) && artistSimilarityNumber > 0.9;
             }
             return false;
         })
@@ -34,7 +37,8 @@ app.get('/lyrics', async function (req, res) {
         const text = await fetchRes.text();
         const $ = cheerio.load(text);
         res.status(200).send($('.lyrics').text());
-    } catch (e) {        
+    } catch (e) {
+        console.error(e);
         return res.status(500).send(e);
     }
 })
@@ -42,4 +46,3 @@ app.get('/lyrics', async function (req, res) {
 app.listen(process.env.PORT || 3000, function () {
     console.log('Lyrics server is running')
 })
-
