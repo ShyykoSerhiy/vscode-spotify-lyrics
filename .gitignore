@@ -1,1 +1,5 @@
 node_modules
+*.js
+.env
+yarn-error.log
+.vscode
