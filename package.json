@@ -22,7 +22,7 @@
     "express": "^4.15.3",
     "genius-api": "https://github.com/ShyykoSerhiy/genius-api.git",
     "mocha": "^6.2.1",
-    "node-fetch": "^1.6.3",
+    "node-fetch": "^2.6.1",
     "string-similarity": "^2.0.0",
     "ts-node": "^8.5.4",
     "typescript": "3.6.3"
