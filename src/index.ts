@@ -3,7 +3,7 @@ import * as api from 'genius-api';
 import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 import * as stringSimilarity from 'string-similarity';
-import { getLyricsV2 } from './helper';
+import { getLyricsV2, getSongsV3 } from './helper';
 
 const app = express();
 const genius = new api(process.env.GENIUS_CLIENT_ACCESS_TOKEN);
@@ -18,6 +18,23 @@ app.get('/v2/lyrics', async function (req, res) {
             artist,
             title,
             geniusPath
+        });
+
+        res.status(200).send(response);
+    } catch (e) {
+        let err = e || {};
+        return res.status(err.status || 500).send(err.error || err);
+    }
+})
+
+app.get('/v3/songs', async function (req, res) {    
+    try {
+        const title = req.query.title;
+        const artist = req.query.artist;
+
+        const response = await getSongsV3({
+            artist,
+            title,
         });
 
         res.status(200).send(response);

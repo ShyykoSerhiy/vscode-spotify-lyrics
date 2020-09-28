@@ -23,6 +23,10 @@ export type V2Response = {
     songs?: ISong[]
 }
 
+export type V3SongsResponse = {
+    songs?: ISong[]
+}
+
 const MIN_SIMILARITY_SCORE = 0.8;
 
 const CLEANUP_REGEX = /\(.*\)|[\(\s\-]*[\d\s]*remastere?d?[\)\s]*.*/gmi;
@@ -73,6 +77,42 @@ export async function getLyricsV2(forSong: ISong): Promise<V2Response> {
     }
 
     return await getLyricsFromGenius(song)
+}
+
+export async function getSongsV3(forSong: ISong): Promise<V3SongsResponse> {
+    const titleLc = forSong.title.toLowerCase();
+    const artistLc = forSong.artist.toLowerCase();
+
+    const artistTitle = `${forSong.artist} - ${forSong.title}`.trim();
+    const cleanedUpArtistTitle = cleanUpTitle(artistTitle);
+
+    console.log(`Trying to find lyrics for ${artistTitle}`)
+
+    const response = await genius.search(artistTitle);
+    const cleanedUpResponse = (artistTitle !== cleanedUpArtistTitle) ? await genius.search(cleanUpTitle(artistTitle)) : { hits: [] };
+    const songs = Array.from((response.hits.concat(cleanedUpResponse.hits)).reduce((songsMap, hit) => {
+        if (hit.type === 'song') {
+            const title = hit.result.title_with_featured;
+            const artist = hit.result.primary_artist.name;
+            songsMap.set(hit.result.path, {
+                title,
+                artist,
+                geniusPath: hit.result.path,
+                similarity: (
+                    stringSimilarity.compareTwoStrings(titleLc, title.toLowerCase()) +
+                    stringSimilarity.compareTwoStrings(artistLc, artist.toLowerCase())
+                ) / 2
+            })
+        }
+        return songsMap;
+    }, new Map<string, ISong>()).values()).sort((a, b) => {
+        /**
+         * Bigger similarity goes first
+         */
+        return b.similarity - a.similarity
+    });
+
+    return { songs };
 }
 
 export async function getLyricsFromGenius(song: ISong): Promise<MatchedResponse> {
